@@ -1,0 +1,3 @@
+[submodule "duplicity"]
+	path = duplicity
+	url = https://gitlab.com/duplicity/duplicity.git

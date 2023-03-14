@@ -1,0 +1,29 @@
+version: "3.9"
+
+secrets:
+    google_client_config:
+        file: "/root/secrets/backup/client_config.yml"
+    duplicity_passphrase:
+        file: "/root/secrets/backup/passphrase.txt"
+
+volumes:
+    duplicity_credentials:
+        external: true
+
+services:
+    backup:
+        image: "ghcr.io/steffo99/backup-duplicity:latest"
+        entrypoint: "/bin/sh" 
+        command: "/etc/periodic/daily/backup.sh"
+        restart: unless-stopped
+        volumes:
+            - "./example:/mnt/example"
+            - "duplicity_credentials:/var/lib/duplicity"
+        environment:
+            MODE: "backup"
+            DUPLICITY_PASSPHRASE_FILE: "/run/secrets/duplicity_passphrase"
+            DUPLICITY_TARGET_URL: "pydrive://641079776729-90s4tnli0ao913ajrpv8cp3c4kkk77j5.apps.googleusercontent.com/Duplicity/this"
+            GOOGLE_DRIVE_SETTINGS: "/run/secrets/google_client_config"
+        secrets:
+            - google_client_config
+            - duplicity_passphrase
