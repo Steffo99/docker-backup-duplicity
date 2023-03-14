@@ -19,7 +19,7 @@ ENTRYPOINT ["crond", "-f", "-d", "5"]
 CMD []
 
 # Add image labels
-LABEL org.opencontainers.image.title="docker-backup-duplicity"
+LABEL org.opencontainers.image.title="backup-duplicity"
 LABEL org.opencontainers.image.description="Backup solution for Docker volumes based on Duplicity"
 LABEL org.opencontainers.image.licenses="AGPL-3.0-or-later"
 LABEL org.opencontainers.image.url="https://github.com/Steffo99/docker-backup-duplicity"
