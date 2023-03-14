@@ -1,5 +1,5 @@
 # FROM archlinux:latest
-FROM alpine:latest
+FROM alpine:latest AS base
 
 # Install duplicity
 # RUN pacman --noconfirm -Syu duplicity python-pip python-pydrive2
@@ -30,3 +30,6 @@ COPY ./backup.sh /etc/periodic/daily/backup.sh
 
 # Configure duplicity
 ENV DUPLICITY_FULL_IF_OLDER_THAN=1M
+
+# Final!
+FROM base AS final
