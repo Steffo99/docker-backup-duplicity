@@ -9,7 +9,7 @@ RUN apk add gcc libffi-dev musl-dev
 RUN apk add duplicity
 RUN apk add rust
 RUN pip install pydrive2
-RUN apk delete rust musl-dev libffi-dev gcc python3-dev 
+RUN apk del rust musl-dev libffi-dev gcc python3-dev 
 
 WORKDIR /var/lib/duplicity
 ENV HOME="/var/lib/duplicity"
