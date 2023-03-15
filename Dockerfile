@@ -3,13 +3,11 @@ FROM alpine:latest AS base
 
 # Install duplicity
 # RUN pacman --noconfirm -Syu duplicity python-pip python-pydrive2
-RUN apk add py3-pip 
-RUN apk add python3-dev 
-RUN apk add gcc libffi-dev musl-dev
-RUN apk add duplicity
-RUN apk add rust cargo
-RUN pip install pydrive2
-RUN apk del rust musl-dev libffi-dev gcc python3-dev cargo 
+ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
+RUN \
+  apk add py3-pip python3-dev gcc libffi-dev musl-dev duplicity rust cargo git && \
+  pip install pydrive2 && \
+  apk del rust musl-dev libffi-dev gcc python3-dev cargo git
 
 WORKDIR /var/lib/duplicity
 ENV HOME="/var/lib/duplicity"
