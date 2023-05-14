@@ -1,5 +1,5 @@
 # FROM archlinux:latest
-FROM alpine:latest AS base
+FROM alpine:latest AS final
 
 # Install duplicity
 # RUN pacman --noconfirm -Syu duplicity python-pip python-pydrive2
