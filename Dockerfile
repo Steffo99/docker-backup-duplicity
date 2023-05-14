@@ -5,9 +5,10 @@ FROM alpine:latest AS base
 # RUN pacman --noconfirm -Syu duplicity python-pip python-pydrive2
 ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
 RUN \
-  apk add py3-pip python3-dev gcc libffi-dev musl-dev duplicity rust cargo git && \
+  apk add py3-pip python3-dev gcc libffi-dev musl-dev openssl-dev pkgconfig duplicity rust cargo git && \
+  pip install --upgrade pip && \
   pip install pydrive2 && \
-  apk del rust musl-dev libffi-dev gcc python3-dev cargo git
+  apk del rust musl-dev libffi-dev gcc python3-dev cargo git pkgconfig openssl-dev
 
 WORKDIR /var/lib/duplicity
 ENV HOME="/var/lib/duplicity"
@@ -29,5 +30,3 @@ COPY ./backup.sh /etc/periodic/daily/backup.sh
 # Configure duplicity
 ENV DUPLICITY_FULL_IF_OLDER_THAN=1M
 
-# Final!
-FROM base AS final
