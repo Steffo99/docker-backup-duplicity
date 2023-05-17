@@ -10,8 +10,8 @@ RUN \
   pip install pydrive2 && \
   apk del rust musl-dev libffi-dev gcc python3-dev cargo git pkgconfig openssl-dev
 
-WORKDIR /var/lib/duplicity
-ENV HOME="/var/lib/duplicity"
+WORKDIR /usr/lib/duplicity
+ENV HOME="/usr/lib/duplicity"
 
 # Add entrypoint
 COPY ./entrypoint.sh /usr/lib/backup-duplicity/entrypoint.sh
