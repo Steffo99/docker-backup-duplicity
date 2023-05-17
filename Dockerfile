@@ -14,12 +14,12 @@ WORKDIR /var/lib/duplicity
 ENV HOME="/var/lib/duplicity"
 
 # Add entrypoint
-COPY ./entrypoint.sh ./entrypoint.sh
-COPY ./restore.sh ./restore.sh
+COPY ./entrypoint.sh /usr/lib/backup-duplicity/entrypoint.sh
+COPY ./restore.sh /usr/lib/backup-duplicity/restore.sh
 COPY ./backup.sh /etc/periodic/daily/backup.sh
 
 # Configure entrypoint and command
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/usr/lib/backup-duplicity/entrypoint.sh"]
 CMD []
 
 # Add image labels
