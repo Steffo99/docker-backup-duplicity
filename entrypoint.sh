@@ -3,9 +3,9 @@
 case "$MODE" in
 	backup)
     echo "Running first backup..."
-    /usr/lib/backup-duplicity/backup.sh
+    /etc/periodic/daily/backup.sh
     echo "Running cron for daily backups..."
-    crond -f -d 5 -l info
+    crond -f -d 5 -l 2
 	;;
 	restore)
     echo "Restoring from latest backup..."
