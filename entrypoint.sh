@@ -5,7 +5,7 @@ case "$MODE" in
     echo "Running first backup..."
     /etc/periodic/daily/backup.sh
     echo "Running cron for daily backups..."
-    crond -f -d 5 -l 2
+    crond -f -d 5 -l 2 -L /dev/stdout
 	;;
 	restore)
     echo "Restoring from latest backup..."
