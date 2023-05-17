@@ -13,6 +13,11 @@ RUN \
 WORKDIR /var/lib/duplicity
 ENV HOME="/var/lib/duplicity"
 
+# Add entrypoint
+COPY ./entrypoint.sh ./entrypoint.sh
+COPY ./restore.sh ./restore.sh
+COPY ./backup.sh /etc/periodic/daily/backup.sh
+
 # Configure entrypoint and command
 ENTRYPOINT ["./entrypoint.sh"]
 CMD []
@@ -23,9 +28,6 @@ LABEL org.opencontainers.image.description="Backup solution for Docker volumes b
 LABEL org.opencontainers.image.licenses="AGPL-3.0-or-later"
 LABEL org.opencontainers.image.url="https://github.com/Steffo99/docker-backup-duplicity"
 LABEL org.opencontainers.image.authors="Stefano Pigozzi <me@steffo.eu>"
-
-# Add duplicity to cron
-COPY ./backup.sh /etc/periodic/daily/backup.sh
 
 # Configure duplicity
 ENV DUPLICITY_FULL_IF_OLDER_THAN=1M
