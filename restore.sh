@@ -7,9 +7,9 @@ set -e
 # It's duplicity's fault!
 export PASSPHRASE=$(cat "${DUPLICITY_PASSPHRASE_FILE}")
 
-echo "Launched in backup mode, performing backup..." >> /dev/stderr
+echo "Launched in restore mode, restoring backup..." >> /dev/stderr
 duplicity \
+  --force \
   --allow-source-mismatch \
-  --full-if-older-than "${DUPLICITY_FULL_IF_OLDER_THAN}" \
-  /mnt \
-  "${DUPLICITY_TARGET_URL}"
+  "${DUPLICITY_TARGET_URL}" \
+  /mnt
