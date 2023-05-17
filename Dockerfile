@@ -14,7 +14,7 @@ WORKDIR /var/lib/duplicity
 ENV HOME="/var/lib/duplicity"
 
 # Configure entrypoint and command
-ENTRYPOINT ["crond", "-f", "-d", "5"]
+ENTRYPOINT ["./entrypoint.sh"]
 CMD []
 
 # Add image labels
