@@ -93,7 +93,7 @@ Backup solution for Docker volumes based on Duplicity
 6. Log in to Google Drive and perform an initial backup with:
 
     ```console
-    # docker compose run -i --entrypoint=/bin/sh --volume='.:/mnt' --volume='duplicity_credentials:/var/lib/duplicity' duplicity /etc/periodic/daily/backup.sh
+    # docker compose run -i --entrypoint=/bin/sh duplicity /etc/periodic/daily/backup.sh
     ```
 
 7. Properly start the container with:
