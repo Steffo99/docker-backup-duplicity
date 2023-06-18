@@ -1,5 +1,3 @@
-version: "3.9"
-
 secrets:
     google_client_config:
         file: "/root/secrets/backup/client_config.yml"
