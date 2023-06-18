@@ -1,8 +1,8 @@
 secrets:
     google_client_config:
-        file: "./client_config.yml"
+        file: "./google_client_config.yml"
     duplicity_passphrase:
-        file: "./passphrase.txt"
+        file: "./duplicity_passphrase.txt"
 
 volumes:
     duplicity_credentials:
