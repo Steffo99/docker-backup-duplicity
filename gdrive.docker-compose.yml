@@ -15,7 +15,7 @@ services:
         command: "/etc/periodic/daily/backup.sh"
         restart: unless-stopped
         volumes:
-            - "./example:/mnt/example"
+            - "./exampledata:/mnt/example"
             - "duplicity_credentials:/var/lib/duplicity"
         environment:
             MODE: "backup"
