@@ -62,16 +62,16 @@ Backup solution for Docker volumes based on Duplicity
         ```yml
         secrets:
             duplicity_passphrase:
-                file: "/root/secrets/backup/passphrase.txt"
+                file: "/root/secrets/duplicity/passphrase.txt"
             google_client_config:
-                file: "/root/secrets/backup/client_config.yml"
+                file: "/root/secrets/duplicity/client_config.yml"
         ```
 
     4. Add the following service:
 
         ```yml
         services:
-            backup:
+            duplicity:
                 image: "ghcr.io/steffo99/backup-duplicity:latest"
                 restart: unless-stopped
                 secrets:
@@ -93,7 +93,7 @@ Backup solution for Docker volumes based on Duplicity
 6. Log in to Google Drive and perform an initial backup with:
 
     ```console
-    # docker compose run -i --entrypoint=/bin/sh --volume='.:/mnt' --volume='duplicity_credentials:/var/lib/duplicity' backup /etc/periodic/daily/backup.sh
+    # docker compose run -i --entrypoint=/bin/sh --volume='.:/mnt' --volume='duplicity_credentials:/var/lib/duplicity' duplicity /etc/periodic/daily/backup.sh
     ```
 
 7. Properly start the container with:
