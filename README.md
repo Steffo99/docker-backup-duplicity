@@ -4,6 +4,8 @@ Backup solution for Docker volumes based on Duplicity
 
 ## Usage
 
+> **Warning**: This section is outdated. Update coming soon!
+
 > **Note**: The following instructions assume Google Drive is used as a storage backend; refer to [duplicity's man page](https://duplicity.us/stable/duplicity.1.html) to find out how to configure different backends!
 
 1. Create a new volume in Docker with the name `duplicity_credentials`:
