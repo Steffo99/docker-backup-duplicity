@@ -1,6 +1,12 @@
-# docker-backup-duplicity
+<div align="center">
 
-Backup solution for Docker volumes based on Duplicity
+![](.media/icon-128x128_round.png)
+
+# Docker Duplicity Backup
+
+Backup solution for Docker volumes based on Duplicity   
+
+</div>
 
 ## Usage
 
