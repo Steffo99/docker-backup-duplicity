@@ -7,6 +7,8 @@ secrets:
 volumes:
   duplicity_credentials:
     external: true
+  duplicity_cache:
+    external: true
 
 services:
   duplicity:
@@ -17,6 +19,7 @@ services:
     volumes:
       - "./exampledata:/mnt/example"
       - "duplicity_credentials:/var/lib/duplicity"
+      - "duplicity_cache:/usr/lib/duplicity/.cache/duplicity"
     environment:
       MODE: "backup"
       DUPLICITY_PASSPHRASE_FILE: "/run/secrets/duplicity_passphrase"
