@@ -6,8 +6,8 @@ FROM alpine:latest AS final
 ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
 RUN \
   apk add py3-pip python3-dev gcc libffi-dev musl-dev openssl-dev pkgconfig duplicity rust cargo git curl && \
-  pip install --upgrade pip && \
-  pip install pydrive2 && \
+  pip install --upgrade pip --break-system-packages && \
+  pip install pydrive2 --break-system-packages && \
   apk del rust musl-dev libffi-dev gcc python3-dev cargo git pkgconfig openssl-dev
 
 WORKDIR /usr/lib/duplicity
