@@ -18,10 +18,11 @@ Backup solution for Docker volumes based on Duplicity
 
 ### Backup
 
-1. Create a new volume in Docker with the name `duplicity_credentials`:
+1. Create two new volumes in Docker with the names `duplicity_credentials` and `duplicity_cache`:
 
     ```console
     # docker volume create duplicity_credentials
+    # docker volume create duplicity_cache
     ```
 
 2. Create a new file in the host system with the name `/root/secrets/backup/passphrase.txt`, and enter in it a secure passphrase to use to encrypt files:
