@@ -1,27 +1,29 @@
 secrets:
-    google_client_config:
-        file: "./google_client_config.yml"
-    duplicity_passphrase:
-        file: "./duplicity_passphrase.txt"
+  google_client_config:
+    file: "./google_client_config.yml"
+  duplicity_passphrase:
+    file: "./duplicity_passphrase.txt"
 
 volumes:
-    duplicity_credentials:
-        external: true
+  duplicity_credentials:
+    external: true
 
 services:
-    duplicity:
-        image: "ghcr.io/steffo99/backup-duplicity:latest"
-        entrypoint: "/bin/sh" 
-        command: "/etc/periodic/daily/backup.sh"
-        restart: unless-stopped
-        volumes:
-            - "./exampledata:/mnt/example"
-            - "duplicity_credentials:/var/lib/duplicity"
-        environment:
-            MODE: "backup"
-            DUPLICITY_PASSPHRASE_FILE: "/run/secrets/duplicity_passphrase"
-            DUPLICITY_TARGET_URL: "pydrive://641079776729-90s4tnli0ao913ajrpv8cp3c4kkk77j5.apps.googleusercontent.com/Duplicity/this"
-            GOOGLE_DRIVE_SETTINGS: "/run/secrets/google_client_config"
-        secrets:
-            - google_client_config
-            - duplicity_passphrase
+  duplicity:
+    image: "ghcr.io/steffo99/backup-duplicity:latest"
+    entrypoint: "/bin/sh"
+    command: "/etc/periodic/daily/backup.sh"
+    restart: unless-stopped
+    volumes:
+      - "./exampledata:/mnt/example"
+      - "duplicity_credentials:/var/lib/duplicity"
+    environment:
+      MODE: "backup"
+      DUPLICITY_PASSPHRASE_FILE: "/run/secrets/duplicity_passphrase"
+      DUPLICITY_TARGET_URL: "pydrive://641079776729-90s4tnli0ao913ajrpv8cp3c4kkk77j5.apps.googleusercontent.com/Duplicity/this"
+      GOOGLE_DRIVE_SETTINGS: "/run/secrets/google_client_config"
+      NTFY: "https://ntfy.sh/garasauto"
+      NTFY_TAGS: "garasauto"
+    secrets:
+      - google_client_config
+      - duplicity_passphrase
