@@ -10,10 +10,14 @@ Backup solution for Docker volumes based on Duplicity
 
 ## Usage
 
-> [!WARNING] 
-> The following instructions might be outdated, let me know if something doesn't work!
+> [!CAUTION] 
+>
+> Killed by Google :tm:
+>
+> New instructions soon
 
 > [!NOTE]
+>
 > The following instructions assume Google Drive is used as a storage backend; refer to [duplicity's man page](https://duplicity.us/stable/duplicity.1.html) to find out how to configure different backends!
 
 ### Backup
