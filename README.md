@@ -65,7 +65,7 @@ Backup solution for Docker volumes based on Duplicity
             "gdrive://111111111111-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.apps.googleusercontent.com/${COMPOSE_PROJECT_NAME}?myDriveFolderID=1_AAAAAAAAAA-BBBBBBBBBBBBBBBBBBBB"
         # If you're planning to use ntfy, set this to the full URL of the topic you'd like to receive notifications at.
         # An example: `ntfy.sh/ko7OC50phzmh1ZMQ`
-        ga_ntfy: &ntfy
+        ga_ntfy: &ga_ntfy
             ""
     ```
 
