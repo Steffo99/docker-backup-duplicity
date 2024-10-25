@@ -19,8 +19,8 @@ Backup solution for Docker volumes based on Duplicity
 1. Create a new directory somewhere on your system to use to store certain configuration files; it can be anywhere, but for the purposes of this guide, it'll be referred to as `$ga_config_dir`, and will be located in `/srv/docker/.ga`:
 
     ```bash
-    mkdir --verbose --parents /srv/docker/.ga
     export ga_config_dir="/srv/docker/.ga"
+    mkdir --verbose --parents "$ga_config_dir"
     ```
 
 1. Create a new file inside `$ga_config_dir` secret with the name `ga_passphrase.txt`, which will contain the password used to encrypt backups before uploading them to Google Drive:
@@ -73,6 +73,12 @@ Backup solution for Docker volumes based on Duplicity
         # If you don't want to use ntfy, set this to an empty string, "".
         x-ga-ntfy: &ga_ntfy
             "https://ntfy.sh/phil_alerts"
+        # The path to the `ga_passphrase.txt` file.
+        x-ga-passphrase: &ga_passphrase
+            "/srv/docker/.ga/ga_passphrase.txt"
+        # The path to the `ga_gdrive_client_secret.json` file.
+        x-ga-gdrive-client-secret: &ga_gdrive_client_secret
+            "/srv/docker/.ga/ga_gdrive_client_secret.json"
     ```
 
 1. Merge the following keys with the rest of your existent `compose.yml` project:
@@ -108,22 +114,18 @@ Backup solution for Docker volumes based on Duplicity
             secrets:
                 - ga_passphrase
                 - ga_gdrive_client_secret
-    ```
-
-    ```yaml
+    
     volumes:
         ga_cache:
             external: true
         ga_credentials:
             external: true
-    ```
-
-    ```yaml
+    
     secrets:
         ga_passphrase:
-            file: 
+            file: *ga_passphrase
         ga_gdrive_client_secret:
-            external: true
+            file: *ga_gdrive_client_secret
     ```
 
 1. Bring up the Compose project:
@@ -144,19 +146,15 @@ Backup solution for Docker volumes based on Duplicity
 
     Complete the authentication to proceed.
 
-    (Make sure to read the alert below if you're having issues!)
+    > For authentication to work correctly after [Google's removal of the OOB Flow](https://developers.google.com/identity/protocols/oauth2/resources/oob-migration), your `http://localhost:80` address needs to match the `http://localhost:80` of the Gestalt Amadeus container.
+    > 
+    > This is not an issue if you can launch a browser on the same machine you're configuring Gestalt Amadeus, but it might be troublesome for non-graphical servers, where this is not possible.
+    >
+    > To apply a quick band-aid to the issue, you can temporarily set up an SSH tunnel towards the server for the duration of the setup process:
+    >
+    > ```bash
+    > # This unfortunately requires root access, since the port we have to tunnel, 80, has a number lower than 1024.
+    > sudo ssh -L 80:80 yourserver
+    > ```
 
 1. You should be done! Make sure backups are appearing in the Google Drive directory you've configured.
-
-> [!CAUTION]
-> 
-> For authentication to work correctly after [Google's removal of the OOB Flow](https://developers.google.com/identity/protocols/oauth2/resources/oob-migration), your `http://localhost:80` address needs to match the `http://localhost:80` of the Gestalt Amadeus container.
-> 
-> This is not an issue if you can launch a browser on the same machine you're configuring Gestalt Amadeus, but it might be troublesome for non-graphical servers, where this is not possible.
->
-> To apply a quick band-aid to the issue, you can temporarily set up an SSH tunnel towards the server for the duration of the setup process:
->
-> ```bash
-> # This unfortunately requires root access, since the port we have to tunnel, 80, has a number lower than 1024.
-> sudo ssh -L 80:80 yourserver
-> ```
