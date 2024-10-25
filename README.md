@@ -16,60 +16,66 @@ Backup solution for Docker volumes based on Duplicity
 
 ### Backup with Google Drive
 
-1. Create a new Docker volume with the name `ga_cache`, which Duplicity will use to temporarily store previous backups:
+1. Create a new directory somewhere on your system to use to store certain configuration files; it can be anywhere, but for the purposes of this guide, it'll be referred to as `$ga_config_dir`, and will be located in `/srv/docker/.ga`:
+
+    ```bash
+    mkdir --verbose --parents /srv/docker/.ga
+    export ga_config_dir="/srv/docker/.ga"
+    ```
+
+1. Create a new file inside `$ga_config_dir` secret with the name `ga_passphrase.txt`, which will contain the password used to encrypt backups before uploading them to Google Drive:
+
+    ```bash
+    cat "/dev/urandom" | LC_ALL="C" tr --delete --complement '[:graph:]' | head --bytes 32 > "$ga_config_dir/ga_passphrase.txt"
+    ```
+
+1. [Use the Google Cloud Console to create new OAuth credentials](https://console.cloud.google.com/apis/credentials) for a ***Desktop Application***.
+
+1. Download the resulting JSON credential file, and move it inside `$ga_config_dir` with the name `ga_gdrive_client_secret.json`:
+
+    ```bash
+    mv --verbose --interactive ./client_secret* "$ga_config_dir/ga_gdrive_client_secret.json"
+
+1. Create a new Docker volume with the name `ga_cache`, which will be used to temporarily store previous backups:
 
     ```bash
     docker volume create "ga_cache"
     ```
 
-1. Create a new Docker volume with the name `ga_credentials`, which Duplicity will use to store Google Drive API credentials:
+1. Create a new Docker volume with the name `ga_credentials`, which will be use to store Google Drive API credentials:
 
     ```bash
     docker volume create "ga_credentials"
     ```
 
-1. Create a new Docker secret with the name `ga_passphrase` containing the password that will be used to encrypt backups before uploading them:
-
-    ```bash
-    # This command will generate a secure random password, print it to the console, and use it to create a Docker secret 
-    cat /dev/urandom | LC_ALL="C" tr --delete --complement '[:graph:]' | head --bytes 32 | tee "/dev/stderr" | docker secret create "ga_passphrase" -
-    ```
-
-1. [Use the Google Cloud Console to create new OAuth credentials](https://console.cloud.google.com/apis/credentials) for a ***Desktop Application***.
-
-1. Download the JSON credential file, and use it to create a new Docker secret with the name `ga_gdrive_client_secret`:
-
-    ```bash
-    docker secret create "ga_gdrive_client_secret" ./client_secret*
-    ```
-
 1. Create a new directory in Google Drive, open it, and copy the final part of the URL:
 
     ```text
-    https://drive.google.com/drive/u/0/folders/1_8rQ4E8ssoN-guFrGs7CC2IFofXBaimi
+    https://drive.google.com/drive/u/0/folders/1_AAAAAAAAAA-BBBBBBBBBBBBBBBBBBBB
                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
                                                          copy this part         
     ```
 
-1. Add your Gestalt Amadeus configuration in your Compose project at `compose.yml`:
+1. Add your Gestalt Amadeus configuration at the top of your `compose.yml` project:
+
     ```yaml
     x-gestalt-automata:
         # Set this to "restore" to recover files from the last available backup.
-        ga_mode: &ga_mode
+        x-ga-mode: &ga_mode
             "backup"
         # The URL where your backups should be uploaded to.
         # For Google Drive, replace:
         # - `1_AAAAAAAAAA-BBBBBBBBBBBBBBBBBBBB` with the final part of the URL you've previously copied
         # - `111111111111-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.apps.googleusercontent.com` with the value of the `.installed.client_id` key of the Google client_secret file you've previously downloaded
-        ga_backup_to: &ga_backup_to
+        x-ga-backup-to: &ga_backup_to
             "gdrive://111111111111-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.apps.googleusercontent.com/${COMPOSE_PROJECT_NAME}?myDriveFolderID=1_AAAAAAAAAA-BBBBBBBBBBBBBBBBBBBB"
         # If you're planning to use ntfy, set this to the full URL of the topic you'd like to receive notifications at.
-        # An example: `ntfy.sh/ko7OC50phzmh1ZMQ`
-        ga_ntfy: &ga_ntfy
-            ""
+        # If you don't want to use ntfy, set this to an empty string, "".
+        x-ga-ntfy: &ga_ntfy
+            "https://ntfy.sh/phil_alerts"
     ```
 
-1. Merge the following keys to your Compose project at `compose.yml`:
+1. Merge the following keys with the rest of your existent `compose.yml` project:
 
     ```yaml
     services:
@@ -93,7 +99,7 @@ Backup solution for Docker volumes based on Duplicity
                 MODE: *ga_mode
                 DUPLICITY_TARGET_URL: *ga_backup_to
                 NTFY: *ga_ntfy
-                NTFY_TAGS: "host-${HOSTNAME},${COMPOSE_PROJECT_NAME}"
+                NTFY_TAGS: "host-${HOSTNAME:-${hostname:-undefined}},${COMPOSE_PROJECT_NAME}"
                 DUPLICITY_PASSPHRASE_FILE: "/run/secrets/ga_passphrase"
                 GOOGLE_CLIENT_SECRET_JSON_FILE: "/run/secrets/ga_gdrive_client_secret"
                 GOOGLE_CREDENTIALS_FILE: "/var/lib/duplicity/google_credentials"
@@ -102,16 +108,20 @@ Backup solution for Docker volumes based on Duplicity
             secrets:
                 - ga_passphrase
                 - ga_gdrive_client_secret
-    
+    ```
+
+    ```yaml
     volumes:
         ga_cache:
             external: true
         ga_credentials:
             external: true
-    
+    ```
+
+    ```yaml
     secrets:
         ga_passphrase:
-            external: true
+            file: 
         ga_gdrive_client_secret:
             external: true
     ```
