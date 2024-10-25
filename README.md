@@ -74,7 +74,7 @@ Backup solution for Docker volumes based on Duplicity
     ```yaml
     services:
         ga:
-            image: ""
+            image: "ghcr.io/steffo99/gestalt-amadeus:2"
             restart: unless-stopped
             network_mode: host
             stdin_open: true
