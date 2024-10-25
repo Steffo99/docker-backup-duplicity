@@ -10,11 +10,24 @@ Backup solution for Docker volumes based on Duplicity
 
 ## Usage
 
-### Backup with Google Drive
-
 > [!NOTE]
 >
 > Other backends are available, but haven't been tested. Please let me know if you want to try using them so I can help you out with setting them up!
+
+### Backup with Google Drive
+
+> [!CAUTION]
+> 
+> For authentication to work correctly after [Google's removal of the OOB Flow](https://developers.google.com/identity/protocols/oauth2/resources/oob-migration), your `http://localhost:80` address needs to match the `http://localhost:80` of the Gestalt Amadeus container.
+> 
+> This is not an issue if you can launch a browser on the same machine you're configuring Gestalt Amadeus, but it might be troublesome for non-graphical servers, where this is not possible.
+>
+> As a quick band-aid to the issue, you can temporarily set up an SSH tunnel towards the server for the duration of the setup process:
+>
+> ```bash
+> # This unfortunately requires root access, since the port we have to tunnel, 80, has a number lower than 1024.
+> sudo ssh -L 80:80 yourserver
+> ```
 
 1. Create a new Docker volume with the name `ga_cache`, which Duplicity will use to temporarily store previous backups:
 
@@ -133,18 +146,5 @@ Backup solution for Docker volumes based on Duplicity
     ```
 
     Complete the authentication to proceed.
-
-    > [!CAUTION]
-    > 
-    > For authentication to work correctly after [Google's removal of the OOB Flow](https://developers.google.com/identity/protocols/oauth2/resources/oob-migration), your `http://localhost:80` address needs to match the `http://localhost:80` of the Gestalt Amadeus container.
-    > 
-    > This is not an issue if you can launch a browser on the same machine you're configuring Gestalt Amadeus, but it might be troublesome for non-graphical servers, where this is not possible.
-    >
-    > As a quick band-aid to the issue, you can temporarily set up an SSH tunnel towards the server for the duration of the authentication process:
-    >
-    > ```
-    > # This unfortunately requires root access, since the port we have to tunnel, 80, has a number lower than 1024.
-    > sudo ssh -L 80:80 yourserver
-    > ```
 
 1. You should be done! Make sure backups are appearing in the Google Drive directory you've configured.
