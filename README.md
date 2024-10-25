@@ -59,7 +59,7 @@ Backup solution for Docker volumes based on Duplicity
 1. Add your Gestalt Amadeus configuration at the top of your `compose.yml` project:
 
     ```yaml
-    x-gestalt-automata:
+    x-gestalt-amadeus:
         # Set this to "restore" to recover files from the last available backup.
         x-ga-mode: &ga_mode
             "backup"
