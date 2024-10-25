@@ -110,7 +110,7 @@ Backup solution for Docker volumes based on Duplicity
                 GOOGLE_CLIENT_SECRET_JSON_FILE: "/run/secrets/ga_gdrive_client_secret"
                 GOOGLE_CREDENTIALS_FILE: "/var/lib/duplicity/google_credentials"
                 GOOGLE_OAUTH_LOCAL_SERVER_HOST: "localhost"
-                GOOGLE_OAUTH_LOCAL_SERVER_PORT: "80"
+                GOOGLE_OAUTH_LOCAL_SERVER_PORT: "8080"
             secrets:
                 - ga_passphrase
                 - ga_gdrive_client_secret
@@ -146,15 +146,14 @@ Backup solution for Docker volumes based on Duplicity
 
     Complete the authentication to proceed.
 
-    > For authentication to work correctly after [Google's removal of the OOB Flow](https://developers.google.com/identity/protocols/oauth2/resources/oob-migration), your `http://localhost:80` address needs to match the `http://localhost:80` of the Gestalt Amadeus container.
+    > For authentication to work correctly after [Google's removal of the OOB Flow](https://developers.google.com/identity/protocols/oauth2/resources/oob-migration), your `http://localhost:8080` address needs to match the `http://localhost:8080` of the Gestalt Amadeus container.
     > 
     > This is not an issue if you can launch a browser on the same machine you're configuring Gestalt Amadeus, but it might be troublesome for non-graphical servers, where this is not possible.
     >
     > To apply a quick band-aid to the issue, you can temporarily set up an SSH tunnel towards the server for the duration of the setup process:
     >
     > ```bash
-    > # This unfortunately requires root access, since the port we have to tunnel, 80, has a number lower than 1024.
-    > sudo ssh -L 80:80 yourserver
+    > ssh -L 8080:8080 yourserver
     > ```
 
 1. You should be done! Make sure backups are appearing in the Google Drive directory you've configured.
