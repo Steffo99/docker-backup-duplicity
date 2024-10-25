@@ -4,11 +4,10 @@ FROM alpine:latest AS final
 # Install duplicity
 # RUN pacman --noconfirm -Syu duplicity python-pip python-pydrive2
 ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
-RUN \
-  apk add py3-pip python3-dev gcc libffi-dev musl-dev openssl-dev pkgconfig duplicity rust cargo git curl && \
-  pip install --upgrade pip --break-system-packages && \
-  pip install pydrive2 --break-system-packages && \
-  apk del rust musl-dev libffi-dev gcc python3-dev cargo git pkgconfig openssl-dev
+RUN apk add py3-pip python3-dev gcc libffi-dev musl-dev openssl-dev pkgconfig duplicity rust cargo git curl
+RUN pip install --upgrade pip --break-system-packages
+RUN pip install google-auth-oauthlib google-api-python-client --break-system-packages
+RUN apk del rust musl-dev libffi-dev gcc python3-dev cargo git pkgconfig openssl-dev
 
 WORKDIR /usr/lib/duplicity
 ENV HOME="/usr/lib/duplicity"
