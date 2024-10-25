@@ -96,6 +96,7 @@ Backup solution for Docker volumes based on Duplicity
                 NTFY_TAGS: "host-${HOSTNAME},${COMPOSE_PROJECT_NAME}"
                 DUPLICITY_PASSPHRASE_FILE: "/run/secrets/ga_passphrase"
                 GOOGLE_CLIENT_SECRET_JSON_FILE: "/run/secrets/ga_gdrive_client_secret"
+                GOOGLE_CREDENTIALS_FILE: "/var/lib/duplicity/google_credentials"
                 GOOGLE_OAUTH_LOCAL_SERVER_HOST: "localhost"
                 GOOGLE_OAUTH_LOCAL_SERVER_PORT: "80"
             secrets:

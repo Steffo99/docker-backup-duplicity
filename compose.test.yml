@@ -19,19 +19,18 @@ services:
         tty: true
         restart: unless-stopped
         volumes:
-            - "./exampledata:/mnt/exampledata"
-            - "ga_credentials:/var/lib/duplicity"
-            - "ga_cache:/usr/lib/duplicity/.cache/duplicity"
+            - type: bind
+              source: "./exampledata"
+              target: "/mnt"
+            - type: volume
+              source: ga_credentials
+              target: "/var/lib/duplicity"
+            - type: volume
+              source: ga_cache
+              target: "/usr/lib/duplicity/.cache/duplicity"        
         environment:
-            # Change this to "restore" to restore from an existing backup
             MODE: "backup"
-            # Change the URL here to the Client ID specified in google_client_secret.json
             DUPLICITY_TARGET_URL: "gdrive://641079776729-da3fi7a2kgk5jkutsjdcnhugqolu40mo.apps.googleusercontent.com/this?myDriveFolderID=1_8rQ4E8ssoN-guFrGs7CC2IFofXBaimi"
-            # The URL to send ntfy notifications at
-            NTFY: ""
-            # Tags to append to ntfy notifications for this service
-            NTFY_TAGS: "${COMPOSE_PROJECT_NAME}"
-            #=== These shouldn't be edited. ===#
             GOOGLE_CLIENT_SECRET_JSON_FILE: "/run/secrets/google_client_secret"
             DUPLICITY_PASSPHRASE_FILE: "/run/secrets/duplicity_passphrase"
             GOOGLE_CREDENTIALS_FILE: "/var/lib/duplicity/google_credentials"
