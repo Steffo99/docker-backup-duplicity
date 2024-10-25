@@ -12,7 +12,7 @@ Backup solution for Docker volumes based on Duplicity
 
 ### Backup with Google Drive
 
-> [!Note]
+> [!NOTE]
 >
 > Other backends are available, but haven't been tested. Please let me know if you want to try using them so I can help you out with setting them up!
 
@@ -134,7 +134,7 @@ Backup solution for Docker volumes based on Duplicity
 
     Complete the authentication to proceed.
 
-    > [!Caution]
+    > [!CAUTION]
     > 
     > For authentication to work correctly after [Google's removal of the OOB Flow](https://developers.google.com/identity/protocols/oauth2/resources/oob-migration), your `http://localhost:80` address needs to match the `http://localhost:80` of the Gestalt Amadeus container.
     > 
