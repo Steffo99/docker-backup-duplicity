@@ -9,6 +9,7 @@ export PASSPHRASE=$(cat "${DUPLICITY_PASSPHRASE_FILE}")
 
 echo "Launched in restore mode, restoring backup..." >> /dev/stderr
 duplicity \
+	restore \
 	--force \
 	--allow-source-mismatch \
 	"${DUPLICITY_TARGET_URL}" \

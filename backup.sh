@@ -21,6 +21,7 @@ if [ -n "${NTFY}" ]; then
 fi
 
 duplicity \
+	backup \
 	--allow-source-mismatch \
 	--full-if-older-than "${DUPLICITY_FULL_IF_OLDER_THAN}" \
 	/mnt \
