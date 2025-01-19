@@ -39,7 +39,8 @@ if [ -n "${NTFY}" ]; then
 	case "$backup_result" in
 		0)
 			echo "Sending ntfy backup complete notification..." >> /dev/stderr
-			ntfy_message=$(printf "Duplicity has successfully performed a backup to **${DUPLICITY_TARGET_URL}**!\n\n```\n")$(cat "/var/log/gestalt-amadeus/log.txt")$(printf "\n```")
+			backup_summary=$(grep --fixed-strings --after-context='16' --regexp='--------------[ Backup Statistics ]--------------' "/var/log/gestalt-amadeus/log.txt")
+			ntfy_message=$(printf "Duplicity has successfully performed a backup to **%s**!\n\n\`\`\`\n%s\n\`\`\`" "$DUPLICITY_TARGET_URL" "$backup_summary")
 			curl "${NTFY}" \
 				--silent \
 				--header "X-Title: Backup complete" \
@@ -51,7 +52,8 @@ if [ -n "${NTFY}" ]; then
 		;;
 		*)
 			echo "Sending ntfy backup failed notification..." >> /dev/stderr
-			ntfy_message=$(printf "Duplicity failed to perform a backup to **${DUPLICITY_TARGET_URL}**, and exited with status code **${backup_result}**.\n\n```\n")$(cat "/var/log/gestalt-amadeus/log.txt")$(printf "\n```")
+			backup_log=$(grep --fixed-strings --after-context='16' --regexp='--------------[ Backup Statistics ]--------------' "/var/log/gestalt-amadeus/log.txt")
+			ntfy_message=$(printf "Duplicity has failed to perform a backup to **%s**.\n\n\`\`\`\n%s\n\`\`\`" "$DUPLICITY_TARGET_URL" "$backup_log")
 			curl "${NTFY}" \
 				--silent \
 				--header "X-Title: Backup failed" \

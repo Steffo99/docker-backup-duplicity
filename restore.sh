@@ -18,7 +18,7 @@ duplicity \
 | tee "/var/log/gestalt-amadeus/log.txt"
 
 
-ntfy_message=$(printf "Duplicity has successfully restored a backup from **${DUPLICITY_TARGET_URL}**!\n\n```\n")$(cat "/var/log/gestalt-amadeus/log.txt")$(printf "\n```")
+ntfy_message=$(printf "Duplicity has successfully restored a backup from **%s**!" "${DUPLICITY_TARGET_URL}")
 
 curl "${NTFY}" \
 	--silent \
