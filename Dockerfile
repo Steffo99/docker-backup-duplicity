@@ -12,6 +12,7 @@ RUN apk del rust musl-dev libffi-dev gcc python3-dev cargo git pkgconfig openssl
 # Create log directory
 RUN mkdir --parents --verbose /var/log/duplicity
 
+# Create program directory
 WORKDIR /usr/lib/duplicity
 ENV HOME="/usr/lib/duplicity"
 
