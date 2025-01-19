@@ -12,5 +12,6 @@ duplicity \
 	restore \
 	--force \
 	--allow-source-mismatch \
+	--verbosity info \
 	"${DUPLICITY_TARGET_URL}" \
 	/mnt
