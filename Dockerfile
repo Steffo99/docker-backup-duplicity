@@ -10,26 +10,26 @@ RUN pip install google-auth-oauthlib google-api-python-client --break-system-pac
 RUN apk del rust musl-dev libffi-dev gcc python3-dev cargo git pkgconfig openssl-dev
 
 # Create log directory
-RUN mkdir --parents --verbose /var/log/duplicity
+RUN mkdir --parents --verbose /var/log/gestalt-amadeus
 
 # Create program directory
-WORKDIR /usr/lib/duplicity
-ENV HOME="/usr/lib/duplicity"
+WORKDIR /usr/lib/gestalt-amadeus
+ENV HOME="/usr/lib/gestalt-amadeus"
 
 # Add entrypoint
-COPY ./entrypoint.sh /usr/lib/backup-duplicity/entrypoint.sh
-COPY ./restore.sh /usr/lib/backup-duplicity/restore.sh
+COPY ./entrypoint.sh /usr/lib/gestalt-amadeus/entrypoint.sh
+COPY ./restore.sh /usr/lib/gestalt-amadeus/restore.sh
 COPY ./backup.sh /etc/periodic/daily/backup.sh
 
 # Configure entrypoint and command
-ENTRYPOINT ["/usr/lib/backup-duplicity/entrypoint.sh"]
+ENTRYPOINT ["/usr/lib/gestalt-amadeus/entrypoint.sh"]
 CMD []
 
 # Add image labels
-LABEL org.opencontainers.image.title="backup-duplicity"
+LABEL org.opencontainers.image.title="gestalt-amadeus"
 LABEL org.opencontainers.image.description="Backup solution for Docker volumes based on Duplicity"
 LABEL org.opencontainers.image.licenses="AGPL-3.0-or-later"
-LABEL org.opencontainers.image.url="https://github.com/Steffo99/docker-backup-duplicity"
+LABEL org.opencontainers.image.url="https://github.com/Steffo99/gestalt-amadeus"
 LABEL org.opencontainers.image.authors="Stefano Pigozzi <me@steffo.eu>"
 
 # Configure duplicity
