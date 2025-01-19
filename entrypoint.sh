@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "Selected mode: $MODE"
+
 case "$MODE" in
 	backup)
 		echo "Running first backup..."
