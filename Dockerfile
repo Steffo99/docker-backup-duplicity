@@ -9,6 +9,9 @@ RUN pip install --upgrade pip --break-system-packages
 RUN pip install google-auth-oauthlib google-api-python-client --break-system-packages
 RUN apk del rust musl-dev libffi-dev gcc python3-dev cargo git pkgconfig openssl-dev
 
+# Create log directory
+RUN mkdir --parents --verbose /var/log/duplicity
+
 WORKDIR /usr/lib/duplicity
 ENV HOME="/usr/lib/duplicity"
 
