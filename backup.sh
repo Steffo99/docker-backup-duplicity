@@ -43,7 +43,7 @@ if [ -n "${NTFY}" ]; then
 				--header "X-Title: Backup complete" \
 				--data "Duplicity has successfully performed a backup to **${DUPLICITY_TARGET_URL}**!" \
 				--header "X-Priority: low" \
-				--header "X-Tags: white_check_mark,duplicity,container-${hostname},${NTFY_TAGS}" \
+				--header "X-Tags: white_check_mark,gestalt-amadeus,gestalt-amadeus-backup,container-${hostname},${NTFY_TAGS}" \
 				--header "Content-Type: text/markdown" \
 				>/dev/null
 		;;
@@ -54,7 +54,7 @@ if [ -n "${NTFY}" ]; then
 				--header "X-Title: Backup failed" \
 				--data "Duplicity failed to perform a backup to **${DUPLICITY_TARGET_URL}**, and exited with status code **${backup_result}**." \
 				--header "X-Priority: max" \
-				--header "X-Tags: sos,duplicity,container-${hostname},${NTFY_TAGS}" \
+				--header "X-Tags: sos,gestalt-amadeus,gestalt-amadeus-backup,container-${hostname},${NTFY_TAGS}" \
 				--header "Content-Type: text/markdown" \
 				>/dev/null
 		;;
