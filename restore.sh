@@ -15,3 +15,12 @@ duplicity \
 	--verbosity info \
 	"${DUPLICITY_TARGET_URL}" \
 	/mnt
+
+curl "${NTFY}" \
+	--silent \
+	--header "X-Title: Restore complete" \
+	--data "Duplicity has successfully restored a backup from **${DUPLICITY_TARGET_URL}**!" \
+	--header "X-Priority: low" \
+	--header "X-Tags: white_check_mark,duplicity,container-${hostname},${NTFY_TAGS}" \
+	--header "Content-Type: text/markdown" \
+	>/dev/null
